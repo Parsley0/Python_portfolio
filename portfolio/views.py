@@ -2,7 +2,11 @@ from pathlib import Path
 
 from django.conf import settings
 from django.http import FileResponse, Http404
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.urls import reverse
+
+from .forms import ContactForm
+from .models import ContactMessage
 
 PROJECTS = [
     {
@@ -120,9 +124,23 @@ EXPERIENCE = [
 
 
 def home(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            ContactMessage.objects.create(
+                name=form.cleaned_data['name'],
+                email=form.cleaned_data['email'],
+                message=form.cleaned_data['message'],
+            )
+            return redirect(f"{reverse('home')}?submitted=1")
+    else:
+        form = ContactForm()
+
+    submitted = request.GET.get('submitted') == '1'
+
     context = {
         'name': 'Parsley Kabuthi Njoroge',
-        'short_name': 'Parsley Njoroge',
+        'short_name': 'Parsley Njorge',
         'role_badge': 'Software Developer — Fullstack Developer',
         'hero_heading_teal': 'Building Tools',
         'hero_heading_white': 'That Make',
@@ -163,6 +181,8 @@ def home(request):
         'cv_url': '#',
         'github_url': '#',
         'linkedin_url': '#',
+        'contact_form': form,
+        'form_submitted': submitted,
     }
     return render(request, 'portfolio/home.html', context)
 
