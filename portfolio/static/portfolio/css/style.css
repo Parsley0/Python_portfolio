@@ -44,7 +44,8 @@ body {
 }
 
 .section + .section {
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid rgba(45, 212, 191, 0.20);
+    background: linear-gradient(to bottom, transparent 0%, rgba(45, 212, 191, 0.03) 100%);
 }
 
 .text-accent {
