@@ -518,6 +518,9 @@ body {
     grid-template-columns: 1.2fr 1fr;
     gap: 2rem;
     align-items: start;
+    max-width: 900px;
+    width: fit-content;
+    margin: 0 auto;
 }
 
 .contact-form {
